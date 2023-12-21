@@ -16,3 +16,47 @@ class TicTacToe:
             for j in range(3):
                 row.apend('-')
             self.board.append(row)
+
+    def get_random_first_player(self):
+        return random.randint(0, 1)
+    
+    def fix_spot(self, row, col, player):
+        self.board[row][col] = player
+
+    def has_player_won(self, player):
+        n = len(self.board)
+        board_values = set()
+
+        #check rows
+        for i in range(n):
+            for j in range(n):
+                board_values.add(self.board[i][j])
+            if board_values == {player}:
+                return True
+            else:
+                board_values.clear()
+
+        #check cols
+        for i in range(n):
+            for j in range(n):
+                board_values.add(self.board[i][j])
+            if board_values == {player}:
+                return True
+            else:
+                board_values.clear() 
+
+        #check diagonals
+        for i in range(n):
+                board_values.add(self.board[i][j])
+        if board_values == {player}:
+                return True
+        else:
+            board_values.clear()  
+
+        board_values.add(self.board[0][2])
+        board_values.add(self.board[1][1])
+        board_values.add(self.board[2][0])
+        if board_values == {player}:
+           return True
+        else:
+           return False   
