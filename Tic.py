@@ -59,4 +59,63 @@ class TicTacToe:
         if board_values == {player}:
            return True
         else:
-           return False   
+           return False  
+
+    def is_board_filled(self):
+        for row in self.board:
+            for item in row:
+                if item == '-':
+                    return False
+
+        return True
+
+    def swap_player_turn(self, player):
+        return 'X' if player == '0' else '0'
+
+    def show_board(self):
+        for row in self.board:
+            for item in row:
+                print(item, end = ' ')
+            print()
+
+    def start(self):
+        self.create_board()
+        player = 'X' if self.get_random_first_player() == 1 else '0'
+        game_over = False
+
+        while not game_over:
+            try:
+                self.show_board()
+                print(f'\nPlayer {player} turn')
+
+                row, col = list(
+                    map(int, input(
+                        'Enter row & column numbers to fix spot: ').split()))
+                print()
+
+                if col is None:
+                    raise ValueError('not enough values tounpack(expected 2, got 1)')
+
+                self.fix_spot(row - 1, col -1, player)
+
+                game_over = self.has_player_won(player)
+                if game_over:
+                    print(f'Player {player} wins the game!')
+                    continue
+
+                game_over = self.is_board_filled()
+                if game_over:
+                    print('Match Draw!')
+                    continue
+
+                player = self.swap_player_turn(player)
+
+            except ValueError as err:
+                print(err)
+        print()
+        self.show_board()
+
+if __name__ == '__main__':
+    tic_tac_toe = TicTacToe()
+    tic_tac_toe.start()                    
+                
